@@ -1,0 +1,80 @@
+package kigali.clinc.clinicmanagement.controller;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.service.AppointmentService;
+
+@RestController
+@RequestMapping("/api/appointments")
+public class AppointmentController {
+
+    private final AppointmentService appointmentService;
+
+    public AppointmentController(AppointmentService appointmentService) {
+        this.appointmentService = appointmentService;
+    }
+
+    // POST /appointments
+    @PostMapping
+    public Appointment saveAppointment(@RequestBody Appointment appointment) {
+        return appointmentService.saveAppointment(appointment);
+    }
+
+    // GET /appointments
+    @GetMapping
+    public List<Appointment> getAllAppointments() {
+        return appointmentService.getAllAppointments();
+    }
+
+    // GET /appointments/{id}
+    @GetMapping("/{id}")
+    public Appointment getAppointmentById(@PathVariable UUID id) {
+        return appointmentService.getAppointmentById(id);
+    }
+
+    // GET /appointments/doctor/{doctorId}
+    @GetMapping("/doctor/{doctorId}")
+    public List<Appointment> getAppointmentsByDoctor(
+            @PathVariable UUID doctorId) {
+
+        return appointmentService.getAppointmentsByDoctor(doctorId);
+    }
+
+    // GET /appointments/doctor/{doctorId}/count
+    @GetMapping("/doctor/{doctorId}/count")
+    public long getAppointmentCountByDoctor(
+            @PathVariable UUID doctorId) {
+
+        return appointmentService.getAppointmentCountByDoctor(doctorId);
+    }
+
+    // PUT /appointments/{id}
+    @PutMapping("/{id}")
+    public Appointment updateAppointment(
+            @PathVariable UUID id,
+            @RequestBody Appointment appointment) {
+
+        return appointmentService.updateAppointment(id, appointment);
+    }
+
+    // DELETE /appointments/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAppointment(@PathVariable UUID id) {
+
+        appointmentService.deleteAppointment(id);
+
+        return ResponseEntity.ok("Appointment deleted successfully");
+    }
+}
