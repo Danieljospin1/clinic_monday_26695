@@ -39,6 +39,10 @@ public class DoctorService {
         return doctorRepo.findById(id).orElse(null);
     }
 
+    public List<Doctor> getDoctorsBySpecialization(String name) {
+    return doctorRepo.findDoctorsBySpecialization(name);
+}
+
 
     // UPDATE
     public String updateDoctor(UUID id, Doctor updatedDoctor) {

@@ -27,116 +27,89 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-
     // CREATE
-    @PostMapping(
-        value = "/save",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<Doctor> saveDoctor( @RequestBody Doctor doctor,@RequestParam int officeNumber) {
-        
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doctor, @RequestParam int officeNumber) {
 
-        Doctor savedDoctor = doctorService.saveDoctor(doctor,officeNumber);
+        Doctor savedDoctor = doctorService.saveDoctor(doctor, officeNumber);
 
         return new ResponseEntity<>(
                 savedDoctor,
-                HttpStatus.CREATED
-        );
+                HttpStatus.CREATED);
     }
 
+    @GetMapping("/by-specialization")
+    public List<Doctor> getDoctorsBySpecialization(
+            @RequestParam String name) {
+
+        return doctorService.getDoctorsBySpecialization(name);
+    }
 
     // READ ALL
-    @GetMapping(
-        value = "/all",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Doctor>> getAllDoctors() {
 
         return new ResponseEntity<>(
                 doctorService.getAllDoctors(),
-                HttpStatus.OK
-        );
+                HttpStatus.OK);
     }
 
-
     // READ ONE
-    @GetMapping(
-        value = "/{id}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getDoctorById(
             @PathVariable UUID id) {
 
-        Doctor doctor =
-                doctorService.getDoctorById(id);
+        Doctor doctor = doctorService.getDoctorById(id);
 
         if (doctor == null) {
             return new ResponseEntity<>(
                     "Doctor not found",
-                    HttpStatus.NOT_FOUND
-            );
+                    HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(
                 doctor,
-                HttpStatus.OK
-        );
+                HttpStatus.OK);
     }
 
-
     // UPDATE
-    @PutMapping(
-        value = "/{id}",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateDoctor(
             @PathVariable UUID id,
             @RequestBody Doctor doctor) {
 
-        String returnedMessage =
-                doctorService.updateDoctor(id, doctor);
+        String returnedMessage = doctorService.updateDoctor(id, doctor);
 
         if (returnedMessage.equalsIgnoreCase(
                 "Doctor is updated Successfully")) {
 
             return new ResponseEntity<>(
                     returnedMessage,
-                    HttpStatus.OK
-            );
+                    HttpStatus.OK);
         }
 
         return new ResponseEntity<>(
                 returnedMessage,
-                HttpStatus.NOT_FOUND
-        );
+                HttpStatus.NOT_FOUND);
     }
 
-
     // DELETE
-    @DeleteMapping(
-        value = "/{id}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteDoctor(
             @PathVariable UUID id) {
 
-        String returnedMessage =
-                doctorService.deleteDoctor(id);
+        String returnedMessage = doctorService.deleteDoctor(id);
 
         if (returnedMessage.equalsIgnoreCase(
                 "Doctor is deleted Successfully")) {
 
             return new ResponseEntity<>(
                     returnedMessage,
-                    HttpStatus.OK
-            );
+                    HttpStatus.OK);
         }
 
         return new ResponseEntity<>(
                 returnedMessage,
-                HttpStatus.NOT_FOUND
-        );
+                HttpStatus.NOT_FOUND);
     }
 }
