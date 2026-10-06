@@ -27,11 +27,7 @@ public class OfficeController {
     private OfficeService officeService;
 
     // CREATE
-    @PostMapping(
-        value = "/save",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> saveOffice(@RequestBody Office office) {
 
         String returnedMessage = officeService.saveOffice(office);
@@ -43,99 +39,85 @@ public class OfficeController {
         return new ResponseEntity<>(returnedMessage, HttpStatus.CONFLICT);
     }
 
-
     // READ ALL
-    @GetMapping(
-        value = "/all",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Office>> getAllOffices() {
 
         return new ResponseEntity<>(
-            officeService.getAllOffices(),
-            HttpStatus.OK
-        );
+                officeService.getAllOffices(),
+                HttpStatus.OK);
     }
 
-
     // READ ONE
-    @GetMapping(
-        value = "/{id}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getOfficeById(@PathVariable UUID id) {
 
         Office office = officeService.getOfficeById(id);
 
         if (office == null) {
             return new ResponseEntity<>(
-                "Office not found",
-                HttpStatus.NOT_FOUND
-            );
+                    "Office not found",
+                    HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(office, HttpStatus.OK);
     }
 
-
     // UPDATE
-    @PutMapping(
-        value = "/{id}",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> updateOffice(
             @PathVariable UUID id,
             @RequestBody Office office) {
 
-        String returnedMessage =
-                officeService.updateOffice(id, office);
+        String returnedMessage = officeService.updateOffice(id, office);
 
         if (returnedMessage.equalsIgnoreCase(
                 "Office is updated Successfully")) {
 
             return new ResponseEntity<>(
-                returnedMessage,
-                HttpStatus.OK
-            );
+                    returnedMessage,
+                    HttpStatus.OK);
         }
 
         if (returnedMessage.equalsIgnoreCase("Office not found")) {
             return new ResponseEntity<>(
-                returnedMessage,
-                HttpStatus.NOT_FOUND
-            );
+                    returnedMessage,
+                    HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(
-            returnedMessage,
-            HttpStatus.CONFLICT
-        );
+                returnedMessage,
+                HttpStatus.CONFLICT);
     }
 
+    @GetMapping("/busiest")
+    public ResponseEntity<?> getBusiestOffice() {
+
+        Object[] result = officeService.getBusiestOffice();
+
+        if (result == null) {
+            return ResponseEntity.ok("No appointments yet");
+        }
+
+        return ResponseEntity.ok(result);
+    }
 
     // DELETE
-    @DeleteMapping(
-        value = "/{id}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> deleteOffice(@PathVariable UUID id) {
 
-        String returnedMessage =
-                officeService.deleteOffice(id);
+        String returnedMessage = officeService.deleteOffice(id);
 
         if (returnedMessage.equalsIgnoreCase(
                 "Office is deleted Successfully")) {
 
             return new ResponseEntity<>(
-                returnedMessage,
-                HttpStatus.OK
-            );
+                    returnedMessage,
+                    HttpStatus.OK);
         }
 
         return new ResponseEntity<>(
-            returnedMessage,
-            HttpStatus.NOT_FOUND
-        );
+                returnedMessage,
+                HttpStatus.NOT_FOUND);
     }
 }
