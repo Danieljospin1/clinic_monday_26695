@@ -86,6 +86,11 @@ public class PatientController {
                 return ResponseEntity.ok(result);
         }
 
+        @GetMapping("/frequent")
+        public List<Patient> getFrequentPatients(@RequestParam long min) {
+                return patientService.getFrequentPatients(min);
+        }
+
         // UPDATE
         @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<?> updatePatient(

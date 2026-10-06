@@ -45,6 +45,10 @@ public class PatientService {
         return patientRepo.findPatientsOfDoctor(doctorId);
     }
 
+    public List<Patient> getFrequentPatients(long min) {
+        return patientRepo.findFrequentPatients(min);
+    }
+
     // READ ONE
     public Patient getPatientById(UUID id) {
 
