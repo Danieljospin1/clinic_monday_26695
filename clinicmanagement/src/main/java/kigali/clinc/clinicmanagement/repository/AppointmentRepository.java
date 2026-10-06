@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
@@ -40,12 +42,22 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
                         Date appointmentDate,
                         AppointmentStatus status);
 
-                        
-
         @Query("""
                             SELECT a.status, COUNT(a)
                             FROM Appointment a
                             GROUP BY a.status
                         """)
         List<Object[]> countAppointmentsByStatus();
+
+        @Modifying
+        @Query("""
+                            UPDATE Appointment a
+                            SET a.status = AppointmentStatus.CANCELLED
+                            WHERE a.doctor.id = :doctorId
+                              AND a.appointmentDate = :date
+                              AND a.status <> AppointmentStatus.COMPLETED
+                        """)
+        int cancelAppointmentsForDoctorOnDate(
+                        @Param("doctorId") UUID doctorId,
+                        @Param("date") Date date);
 }

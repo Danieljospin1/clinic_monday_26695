@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
@@ -42,6 +43,16 @@ public class AppointmentService {
 
     public List<Object[]> countAppointmentsByStatus() {
         return appointmentRepository.countAppointmentsByStatus();
+    }
+
+    @Transactional
+    public String cancelAppointmentsForDoctorOnDate(UUID doctorId, Date date) {
+
+        int cancelled = appointmentRepository.cancelAppointmentsForDoctorOnDate(
+                doctorId,
+                date);
+
+        return cancelled + " appointments cancelled";
     }
 
     // Get all appointments
