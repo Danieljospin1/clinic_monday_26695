@@ -25,12 +25,17 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
     // Count appointments for a specific doctor
     long countByDoctorId(UUID doctorId);
 
-    //find by appointment status
+    // find by appointment status
     List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
 
-    //find By Appointment Date Between Order By Appointment Date
+    // find By Appointment Date Between Order By Appointment Date
     List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(
-        Date start,
-        Date end
-);
+            Date start,
+            Date end);
+
+    // conflicting appointment exists before saving
+    boolean existsByDoctorIdAndAppointmentDateAndStatusNot(
+            UUID doctorId,
+            Date appointmentDate,
+            AppointmentStatus status);
 }

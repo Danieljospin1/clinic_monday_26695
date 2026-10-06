@@ -19,9 +19,25 @@ public class AppointmentService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    // Save appointment
-    public Appointment saveAppointment(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+    // Save appointment with check
+    public String saveAppointment(Appointment appointment) {
+
+        boolean doctorAlreadyBooked = appointmentRepository.existsByDoctorIdAndAppointmentDateAndStatusNot(
+                appointment.getDoctor().getId(),
+                appointment.getAppointmentDate(),
+                AppointmentStatus.CANCELLED);
+
+        System.out.println("Doctor ID: " + appointment.getDoctor().getId());
+        System.out.println("Appointment date: " + appointment.getAppointmentDate());
+        System.out.println("Already booked: " + doctorAlreadyBooked);
+
+        if (doctorAlreadyBooked) {
+            return "Doctor is already booked on that date";
+        }
+
+        appointmentRepository.save(appointment);
+
+        return "Appointment saved successfully";
     }
 
     // Get all appointments

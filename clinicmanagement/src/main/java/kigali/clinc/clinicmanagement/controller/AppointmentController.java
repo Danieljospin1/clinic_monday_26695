@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +33,18 @@ public class AppointmentController {
 
     // POST /appointments
     @PostMapping
-    public Appointment saveAppointment(@RequestBody Appointment appointment) {
-        return appointmentService.saveAppointment(appointment);
+    public ResponseEntity<String> saveAppointment(
+            @RequestBody Appointment appointment) {
+
+        String result = appointmentService.saveAppointment(appointment);
+
+        if (result.equals("Doctor is already booked on that date")) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(result);
+        }
+
+        return ResponseEntity.ok(result);
     }
 
     // GET /appointments
