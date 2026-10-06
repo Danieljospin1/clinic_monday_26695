@@ -40,6 +40,10 @@ public class AppointmentService {
         return "Appointment saved successfully";
     }
 
+    public List<Object[]> countAppointmentsByStatus() {
+        return appointmentRepository.countAppointmentsByStatus();
+    }
+
     // Get all appointments
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();

@@ -53,6 +53,11 @@ public class AppointmentController {
         return appointmentService.getAllAppointments();
     }
 
+    @GetMapping("/stats/by-status")
+    public List<Object[]> countAppointmentsByStatus() {
+        return appointmentService.countAppointmentsByStatus();
+    }
+
     @GetMapping("/by-status")
     public List<Appointment> getAppointmentsByStatus(
             @RequestParam AppointmentStatus status) {
