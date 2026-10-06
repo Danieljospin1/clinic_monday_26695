@@ -1,0 +1,759 @@
+{
+  "info": {
+    "_postman_id": "d3b661c3-abf3-48cb-ad1d-2f3543fef810",
+    "name": "clinic",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36720347"
+  },
+  "item": [
+    {
+      "name": "office",
+      "item": [
+        {
+          "name": "get office by Id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "office register",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\":\"office103\",\r\n  \"officeNumber\":103\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/office/save",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "office",
+                "save"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all offices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/office/all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "office",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update office",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete office",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "busiest office",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/office/busiest",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "office",
+                "busiest"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "patient",
+      "item": [
+        {
+          "name": "save patient",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\":\"daniel\",\r\n    \"lastName\":\"jospin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/patient/save",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "patient",
+                "save"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/patient/all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "patient",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get a patient with id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/patient/by-last-name?lastName=uwase",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "patient",
+                "by-last-name"
+              ],
+              "query": [
+                {
+                  "key": "lastName",
+                  "value": "uwase"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update patient",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "delete patient",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "distinct patient details with appointment of a particular doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/patient/of-doctor/603daf4e-83be-43b3-b543-4f4e1cddd47b",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "patient",
+                "of-doctor",
+                "603daf4e-83be-43b3-b543-4f4e1cddd47b"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "appointments per patient",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/patient/frequent?min=3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "patient",
+                "frequent"
+              ],
+              "query": [
+                {
+                  "key": "min",
+                  "value": "3"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "doctor",
+      "item": [
+        {
+          "name": "create doctor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"erasme\",\r\n    \"lastName\": \"nshuti\",\r\n    \"dateOfBirth\": \"1985-06-22\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/doctor/save?officeNumber=102",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "doctor",
+                "save"
+              ],
+              "query": [
+                {
+                  "key": "officeNumber",
+                  "value": "102"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all doctors",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/doctor/all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "doctor",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get doctor with Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/doctor/b76859cd-08de-4672-b145-1f01b059fd84",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "doctor",
+                "b76859cd-08de-4672-b145-1f01b059fd84"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update doctor",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/doctor",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "doctor"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete doctor",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "get doctors with specialization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/doctor/by-specialization?name=cardiology",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "doctor",
+                "by-specialization"
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "cardiology"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "doctor without office",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/doctor/without-office",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "doctor",
+                "without-office"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "specialization",
+      "item": [
+        {
+          "name": "add specialization to a doctor",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/997f46d4-04af-425c-be03-3bb506be6d94/doctor/603daf4e-83be-43b3-b543-4f4e1cddd47b",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "997f46d4-04af-425c-be03-3bb506be6d94",
+                "doctor",
+                "603daf4e-83be-43b3-b543-4f4e1cddd47b"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getAll",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Dentistry\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/all",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "all"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get specialization By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/2e7b14dc-4f86-4d60-b088-7f355e151e04",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "2e7b14dc-4f86-4d60-b088-7f355e151e04"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update specialisation by Id",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"general\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/2e7b14dc-4f86-4d60-b088-7f355e151e04",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "2e7b14dc-4f86-4d60-b088-7f355e151e04"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "new specialization",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"Neurology\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/save",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "save"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/23993522-f802-44d4-8353-f914ac086d15",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "23993522-f802-44d4-8353-f914ac086d15"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "retrieve specialization with no doctor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/specialization/unused",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "specialization",
+                "unused"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Appointments",
+      "item": [
+        {
+          "name": "new appointment",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n  \"appointmentDate\": \"2026-10-28\",\r\n  \"reason\": \"Regular medical checkup\",\r\n  \"status\": \"SCHEDULED\",\r\n  \"patient\": {\r\n    \"id\": \"1af781c3-5517-4e7e-be4f-3e295ab4aecb\"\r\n  },\r\n  \"doctor\": {\r\n    \"id\": \"603daf4e-83be-43b3-b543-4f4e1cddd47b\"\r\n  }\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:1014/api/appointments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "appointments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "appointment by status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/appointments/by-status?status=SCHEDULED",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "appointments",
+                "by-status"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "SCHEDULED"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "appointments between dates",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/appointments/between?start=2026-10-01&end=2026-10-31",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "appointments",
+                "between"
+              ],
+              "query": [
+                {
+                  "key": "start",
+                  "value": "2026-10-01"
+                },
+                {
+                  "key": "end",
+                  "value": "2026-10-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "counts of nomber of appointments by status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/appointments/stats/by-status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "appointments",
+                "stats",
+                "by-status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "bulk cancellation for doctor's appointments",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:1014/api/appointments/cancel-day?doctorId=cdc8dec6-a9e5-4fa8-bdad-11568a878cca&date=2026-11-18",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "1014",
+              "path": [
+                "api",
+                "appointments",
+                "cancel-day"
+              ],
+              "query": [
+                {
+                  "key": "doctorId",
+                  "value": "cdc8dec6-a9e5-4fa8-bdad-11568a878cca"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-11-18"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
