@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.Patient;
+import kigali.clinc.clinicmanagement.repository.DoctorRepository;
 import kigali.clinc.clinicmanagement.repository.PatientRepository;
 
 @Service
@@ -14,6 +15,9 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepo;
+
+    @Autowired
+    private DoctorRepository doctorRepo;
 
     // CREATE
     public Patient savePatient(Patient patient) {
@@ -31,6 +35,15 @@ public class PatientService {
         return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
 
     };
+
+    public Object getPatientsOfDoctor(UUID doctorId) {
+
+        if (!doctorRepo.existsById(doctorId)) {
+            return "The doctor with that id does not exist";
+        }
+
+        return patientRepo.findPatientsOfDoctor(doctorId);
+    }
 
     // READ ONE
     public Patient getPatientById(UUID id) {

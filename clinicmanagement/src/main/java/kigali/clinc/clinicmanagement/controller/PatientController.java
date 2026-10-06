@@ -72,6 +72,20 @@ public class PatientController {
                 return new ResponseEntity<>(patients, HttpStatus.OK);
         }
 
+        @GetMapping("/of-doctor/{doctorId}")
+        public ResponseEntity<?> getPatientsOfDoctor(@PathVariable UUID doctorId) {
+
+                Object result = patientService.getPatientsOfDoctor(doctorId);
+
+                if (result instanceof String) {
+                        return ResponseEntity
+                                        .status(HttpStatus.NOT_FOUND)
+                                        .body(result);
+                }
+
+                return ResponseEntity.ok(result);
+        }
+
         // UPDATE
         @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
         public ResponseEntity<?> updatePatient(
