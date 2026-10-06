@@ -1,5 +1,6 @@
 package kigali.clinc.clinicmanagement.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +39,15 @@ public class AppointmentService {
     public Appointment getAppointmentById(UUID id) {
         return appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found with id: " + id));
+    }
+
+    public List<Appointment> getAppointmentsBetweenDates(
+            Date start,
+            Date end) {
+
+        return appointmentRepository
+                .findByAppointmentDateBetweenOrderByAppointmentDateAsc(
+                        start, end);
     }
 
     // Update appointment

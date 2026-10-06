@@ -1,5 +1,6 @@
 package kigali.clinc.clinicmanagement.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,4 +27,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     //find by appointment status
     List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
+
+    //find By Appointment Date Between Order By Appointment Date
+    List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(
+        Date start,
+        Date end
+);
 }

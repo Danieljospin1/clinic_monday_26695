@@ -1,5 +1,7 @@
 package kigali.clinc.clinicmanagement.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -66,6 +68,22 @@ public class AppointmentController {
             @PathVariable UUID doctorId) {
 
         return appointmentService.getAppointmentCountByDoctor(doctorId);
+    }
+
+    @GetMapping("/between")
+    public List<Appointment> getAppointmentsBetweenDates(
+            @RequestParam String start,
+            @RequestParam String end) {
+
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+
+        Date sqlStartDate = Date.valueOf(startDate);
+        Date sqlEndDate = Date.valueOf(endDate);
+
+        return appointmentService.getAppointmentsBetweenDates(
+                sqlStartDate,
+                sqlEndDate);
     }
 
     // PUT /appointments/{id}
