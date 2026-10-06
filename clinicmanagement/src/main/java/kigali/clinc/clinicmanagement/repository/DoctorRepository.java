@@ -12,7 +12,7 @@ import kigali.clinc.clinicmanagement.domain.Doctor;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
-//ind the specialization whose name matches the requested name, ignoring case.
+    // ind the specialization whose name matches the requested name, ignoring case.
     @Query("""
                 SELECT d
                 FROM Doctor d
@@ -20,5 +20,13 @@ public interface DoctorRepository extends JpaRepository<Doctor, UUID> {
                 WHERE LOWER(s.name) = LOWER(:name)
             """)
     List<Doctor> findDoctorsBySpecialization(@Param("name") String name);
+
+    @Query("""
+                SELECT d
+                FROM Doctor d
+                WHERE d.office IS NULL
+                ORDER BY d.lastName ASC
+            """)
+    List<Doctor> findDoctorsWithoutOffice();
 
 }

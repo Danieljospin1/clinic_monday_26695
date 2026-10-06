@@ -15,23 +15,21 @@ public class DoctorService {
 
     @Autowired
     private DoctorRepository doctorRepo;
-    @Autowired 
-    private  OfficeRepository officeRep;
+    @Autowired
+    private OfficeRepository officeRep;
 
     // CREATE
-    public Doctor saveDoctor(Doctor doctor,int officeNumber) {
-        ////Optional<Office> getOffice=officeRep.findByOfficeNumber(officeNumber);
+    public Doctor saveDoctor(Doctor doctor, int officeNumber) {
+        //// Optional<Office> getOffice=officeRep.findByOfficeNumber(officeNumber);
 
         return doctorRepo.save(doctor);
     }
-
 
     // READ ALL
     public List<Doctor> getAllDoctors() {
 
         return doctorRepo.findAll();
     }
-
 
     // READ ONE
     public Doctor getDoctorById(UUID id) {
@@ -40,43 +38,40 @@ public class DoctorService {
     }
 
     public List<Doctor> getDoctorsBySpecialization(String name) {
-    return doctorRepo.findDoctorsBySpecialization(name);
-}
+        return doctorRepo.findDoctorsBySpecialization(name);
+    }
 
+    public List<Doctor> getDoctorsWithoutOffice() {
+        return doctorRepo.findDoctorsWithoutOffice();
+    }
 
     // UPDATE
     public String updateDoctor(UUID id, Doctor updatedDoctor) {
 
-        Doctor existingDoctor =
-                doctorRepo.findById(id).orElse(null);
+        Doctor existingDoctor = doctorRepo.findById(id).orElse(null);
 
         if (existingDoctor == null) {
             return "Doctor not found";
         }
 
         existingDoctor.setFirstName(
-                updatedDoctor.getFirstName()
-        );
+                updatedDoctor.getFirstName());
 
         existingDoctor.setLastName(
-                updatedDoctor.getLastName()
-        );
+                updatedDoctor.getLastName());
 
         existingDoctor.setDateOfBirth(
-                updatedDoctor.getDateOfBirth()
-        );
+                updatedDoctor.getDateOfBirth());
 
         doctorRepo.save(existingDoctor);
 
         return "Doctor is updated Successfully";
     }
 
-
     // DELETE
     public String deleteDoctor(UUID id) {
 
-        Doctor doctor =
-                doctorRepo.findById(id).orElse(null);
+        Doctor doctor = doctorRepo.findById(id).orElse(null);
 
         if (doctor == null) {
             return "Doctor not found";

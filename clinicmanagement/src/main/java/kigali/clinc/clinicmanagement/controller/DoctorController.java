@@ -45,6 +45,11 @@ public class DoctorController {
         return doctorService.getDoctorsBySpecialization(name);
     }
 
+    @GetMapping("/without-office")
+    public List<Doctor> getDoctorsWithoutOffice() {
+        return doctorService.getDoctorsWithoutOffice();
+    }
+
     // READ ALL
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Doctor>> getAllDoctors() {
