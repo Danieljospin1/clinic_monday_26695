@@ -39,6 +39,17 @@ public class OfficeService {
         return officeRepo.findById(id).orElse(null);
     }
 
+    public Object[] getBusiestOffice() {
+
+        List<Object[]> results = officeRepo.findBusiestOffice();
+
+        if (results.isEmpty()) {
+            return null;
+        }
+
+        return results.get(0);
+    }
+
     // UPDATE
     public String updateOffice(UUID id, Office updatedOffice) {
 
@@ -49,8 +60,7 @@ public class OfficeService {
         }
 
         // Check whether the new office number belongs to another office
-        Office officeWithSameNumber =
-                officeRepo.findByOfficeNumber(updatedOffice.getOfficeNumber());
+        Office officeWithSameNumber = officeRepo.findByOfficeNumber(updatedOffice.getOfficeNumber());
 
         if (officeWithSameNumber != null
                 && !officeWithSameNumber.getId().equals(id)) {
