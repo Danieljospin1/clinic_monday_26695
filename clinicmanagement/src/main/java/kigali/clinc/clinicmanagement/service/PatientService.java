@@ -27,7 +27,7 @@ public class PatientService {
         return patientRepo.findAll();
     }
 
-    public List<Patient> getPatientsByName(String lastName) {
+    public List<Patient> getPatientsByLastName(String lastName) {
         return patientRepo.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
 
     };

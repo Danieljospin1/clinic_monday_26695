@@ -66,12 +66,10 @@ public class PatientController {
                                 HttpStatus.OK);
         }
 
-        @GetMapping(value = "by-last-name", produces = MediaType.APPLICATION_JSON_VALUE)
-        public ResponseEntity<Patient> getPatientByLastName(@RequestParam String lastName) {
-                List<Patient> patientsLastName = patientService.getPatientsByName(lastName);
-                return new ResponseEntity<>(
-                                patientsLastName,
-                                HttpStatus.OK);
+        @GetMapping(value = "/by-last-name")
+        public ResponseEntity<List<Patient>> getPatientsByLastName(@RequestParam String lastName) {
+                List<Patient> patients = patientService.getPatientsByLastName(lastName);
+                return new ResponseEntity<>(patients, HttpStatus.OK);
         }
 
         // UPDATE

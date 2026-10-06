@@ -102,11 +102,11 @@ public class SpecializationService {
             return "Doctor not found";
         }
 
-        if (specialization.getDoctors().contains(doctor)) {
-            return "Doctor already has this specialization";
-        }
+        // if (specialization.getDoctors().contains(doctor)) {
+        //     return "Doctor already has this specialization";
+        // }
 
-        specialization.getDoctors().add(doctor);
+        // specialization.getDoctors().add(doctor);
 
         specializationRepo.save(specialization);
 
