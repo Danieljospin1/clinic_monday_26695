@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
@@ -22,4 +23,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 
     // Count appointments for a specific doctor
     long countByDoctorId(UUID doctorId);
+
+    //find by appointment status
+    List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
 }

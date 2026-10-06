@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
 
 @Service
@@ -25,6 +26,12 @@ public class AppointmentService {
     // Get all appointments
     public List<Appointment> getAllAppointments() {
         return appointmentRepository.findAll();
+    }
+
+    // appointment by status
+    public List<Appointment> getAppointmentsByStatus(AppointmentStatus status) {
+        return appointmentRepository
+                .findByStatusOrderByAppointmentDateAsc(status);
     }
 
     // Get appointment by ID

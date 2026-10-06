@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
+import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 import kigali.clinc.clinicmanagement.service.AppointmentService;
 
 @RestController
@@ -36,6 +38,12 @@ public class AppointmentController {
     @GetMapping
     public List<Appointment> getAllAppointments() {
         return appointmentService.getAllAppointments();
+    }
+
+    @GetMapping("/by-status")
+    public List<Appointment> getAppointmentsByStatus(
+            @RequestParam AppointmentStatus status) {
+        return appointmentService.getAppointmentsByStatus(status);
     }
 
     // GET /appointments/{id}
