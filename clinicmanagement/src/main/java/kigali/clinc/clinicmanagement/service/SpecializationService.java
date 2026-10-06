@@ -20,7 +20,6 @@ public class SpecializationService {
     @Autowired
     private DoctorRepository doctorRepo;
 
-
     // CREATE
     public String saveSpecialization(Specialization specialization) {
 
@@ -33,13 +32,11 @@ public class SpecializationService {
         return "Specialization saved successfully";
     }
 
-
     // READ ALL
     public List<Specialization> getAllSpecializations() {
 
         return specializationRepo.findAll();
     }
-
 
     // READ ONE
     public Specialization getSpecializationById(UUID id) {
@@ -47,14 +44,16 @@ public class SpecializationService {
         return specializationRepo.findById(id).orElse(null);
     }
 
+    public List<Specialization> getUnusedSpecializations() {
+        return specializationRepo.findUnusedSpecializations();
+    }
 
     // UPDATE
     public String updateSpecialization(
             UUID id,
             Specialization newData) {
 
-        Specialization existing =
-                specializationRepo.findById(id).orElse(null);
+        Specialization existing = specializationRepo.findById(id).orElse(null);
 
         if (existing == null) {
             return "Specialization not found";
@@ -66,7 +65,6 @@ public class SpecializationService {
 
         return "Specialization updated successfully";
     }
-
 
     // DELETE
     public String deleteSpecialization(UUID id) {
@@ -80,22 +78,19 @@ public class SpecializationService {
         return "Specialization deleted successfully";
     }
 
-
     // ADD DOCTOR TO SPECIALIZATION
     public String addDoctorToSpecialization(
             UUID specializationId,
             UUID doctorId) {
 
-        Specialization specialization =
-                specializationRepo.findById(specializationId)
+        Specialization specialization = specializationRepo.findById(specializationId)
                 .orElse(null);
 
         if (specialization == null) {
             return "Specialization not found";
         }
 
-        Doctor doctor =
-                doctorRepo.findById(doctorId)
+        Doctor doctor = doctorRepo.findById(doctorId)
                 .orElse(null);
 
         if (doctor == null) {
@@ -103,7 +98,7 @@ public class SpecializationService {
         }
 
         // if (specialization.getDoctors().contains(doctor)) {
-        //     return "Doctor already has this specialization";
+        // return "Doctor already has this specialization";
         // }
 
         // specialization.getDoctors().add(doctor);

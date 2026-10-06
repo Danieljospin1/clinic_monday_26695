@@ -22,137 +22,118 @@ import kigali.clinc.clinicmanagement.service.SpecializationService;
 @RequestMapping("/api/specialization")
 public class SpecializationController {
 
-    @Autowired
-    private SpecializationService specializationService;
+        @Autowired
+        private SpecializationService specializationService;
 
+        // CREATE
+        @PostMapping("/save")
+        public ResponseEntity<?> saveSpecialization(
+                        @RequestBody Specialization specialization) {
 
-    // CREATE
-    @PostMapping("/save")
-    public ResponseEntity<?> saveSpecialization(
-            @RequestBody Specialization specialization) {
+                String message = specializationService.saveSpecialization(specialization);
 
-        String message =
-                specializationService.saveSpecialization(specialization);
+                if (message.equalsIgnoreCase(
+                                "Specialization saved successfully")) {
 
-        if (message.equalsIgnoreCase(
-                "Specialization saved successfully")) {
+                        return new ResponseEntity<>(
+                                        message,
+                                        HttpStatus.CREATED);
+                }
 
-            return new ResponseEntity<>(
-                    message,
-                    HttpStatus.CREATED
-            );
+                return new ResponseEntity<>(
+                                message,
+                                HttpStatus.CONFLICT);
         }
 
-        return new ResponseEntity<>(
-                message,
-                HttpStatus.CONFLICT
-        );
-    }
+        // READ ALL
+        @GetMapping("/all")
+        public ResponseEntity<List<Specialization>> getAllSpecializations() {
 
-
-    // READ ALL
-    @GetMapping("/all")
-    public ResponseEntity<List<Specialization>>
-            getAllSpecializations() {
-
-        return new ResponseEntity<>(
-                specializationService.getAllSpecializations(),
-                HttpStatus.OK
-        );
-    }
-
-
-    // READ ONE
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getSpecializationById(
-            @PathVariable UUID id) {
-
-        Specialization specialization =
-                specializationService
-                .getSpecializationById(id);
-
-        if (specialization == null) {
-
-            return new ResponseEntity<>(
-                    "Specialization not found",
-                    HttpStatus.NOT_FOUND
-            );
+                return new ResponseEntity<>(
+                                specializationService.getAllSpecializations(),
+                                HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(
-                specialization,
-                HttpStatus.OK
-        );
-    }
+        // READ ONE
+        @GetMapping("/{id}")
+        public ResponseEntity<?> getSpecializationById(
+                        @PathVariable UUID id) {
 
+                Specialization specialization = specializationService
+                                .getSpecializationById(id);
 
-    // UPDATE
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateSpecialization(
-            @PathVariable UUID id,
-            @RequestBody Specialization specialization) {
+                if (specialization == null) {
 
-        String message =
-                specializationService.updateSpecialization(
-                        id,
-                        specialization
-                );
+                        return new ResponseEntity<>(
+                                        "Specialization not found",
+                                        HttpStatus.NOT_FOUND);
+                }
 
-        if (message.equalsIgnoreCase(
-                "Specialization updated successfully")) {
-
-            return new ResponseEntity<>(
-                    message,
-                    HttpStatus.OK
-            );
+                return new ResponseEntity<>(
+                                specialization,
+                                HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(
-                message,
-                HttpStatus.NOT_FOUND
-        );
-    }
+        // UPDATE
+        @PutMapping("/{id}")
+        public ResponseEntity<?> updateSpecialization(
+                        @PathVariable UUID id,
+                        @RequestBody Specialization specialization) {
 
+                String message = specializationService.updateSpecialization(
+                                id,
+                                specialization);
 
-    // DELETE
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSpecialization(
-            @PathVariable UUID id) {
+                if (message.equalsIgnoreCase(
+                                "Specialization updated successfully")) {
 
-        String message =
-                specializationService.deleteSpecialization(id);
+                        return new ResponseEntity<>(
+                                        message,
+                                        HttpStatus.OK);
+                }
 
-        if (message.equalsIgnoreCase(
-                "Specialization deleted successfully")) {
-
-            return new ResponseEntity<>(
-                    message,
-                    HttpStatus.OK
-            );
+                return new ResponseEntity<>(
+                                message,
+                                HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(
-                message,
-                HttpStatus.NOT_FOUND
-        );
-    }
+        @GetMapping("/unused")
+        public List<Specialization> getUnusedSpecializations() {
+                return specializationService.getUnusedSpecializations();
+        }
 
+        // DELETE
+        @DeleteMapping("/{id}")
+        public ResponseEntity<?> deleteSpecialization(
+                        @PathVariable UUID id) {
 
-    // ADD DOCTOR TO SPECIALIZATION
-    @PostMapping("/{specializationId}/doctor/{doctorId}")
-    public ResponseEntity<?> addDoctorToSpecialization(
-            @PathVariable UUID specializationId,
-            @PathVariable UUID doctorId) {
+                String message = specializationService.deleteSpecialization(id);
 
-        String message =
-                specializationService.addDoctorToSpecialization(
-                        specializationId,
-                        doctorId
-                );
+                if (message.equalsIgnoreCase(
+                                "Specialization deleted successfully")) {
 
-        return new ResponseEntity<>(
-                message,
-                HttpStatus.OK
-        );
-    }
+                        return new ResponseEntity<>(
+                                        message,
+                                        HttpStatus.OK);
+                }
+
+                return new ResponseEntity<>(
+                                message,
+                                HttpStatus.NOT_FOUND);
+        }
+
+        // ADD DOCTOR TO SPECIALIZATION
+        @PostMapping("/{specializationId}/doctor/{doctorId}")
+        public ResponseEntity<?> addDoctorToSpecialization(
+                        @PathVariable UUID specializationId,
+                        @PathVariable UUID doctorId) {
+
+                String message = specializationService.addDoctorToSpecialization(
+                                specializationId,
+                                doctorId);
+
+                return new ResponseEntity<>(
+                                message,
+                                HttpStatus.OK);
+        }
 }
