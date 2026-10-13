@@ -52,6 +52,10 @@ public class Appointment {
         return reason;
     }
 
+    public UUID getId(){
+        return id;
+    }
+
     public void setReason(String reason) {
         this.reason = reason;
     }
