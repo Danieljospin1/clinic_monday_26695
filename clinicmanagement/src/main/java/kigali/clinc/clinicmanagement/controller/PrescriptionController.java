@@ -60,4 +60,13 @@ public class PrescriptionController {
         return ResponseEntity.ok(result.get());
     }
 
+    @GetMapping("/patient/{ssNumber}")
+    public ResponseEntity<List<Prescription>> getPrescriptionHistory(
+            @PathVariable String ssNumber) {
+
+        List<Prescription> prescriptions = prescriptionService.getPrescriptionHistory(ssNumber);
+
+        return ResponseEntity.ok(prescriptions);
+    }
+
 }

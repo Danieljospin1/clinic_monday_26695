@@ -48,6 +48,11 @@ public class PrescriptionService {
         return "Prescription saved successfully";
     }
 
+    public List<Prescription> getPrescriptionHistory(String ssNumber) {
+        return prescriptionRepository
+                .findPrescriptionHistoryByPatientSsNumber(ssNumber);
+    }
+
     public Optional<List<Prescription>> getPrescriptionsByAppointmentId(
             UUID appointmentId) {
 

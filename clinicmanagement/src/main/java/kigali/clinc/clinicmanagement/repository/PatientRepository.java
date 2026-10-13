@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import kigali.clinc.clinicmanagement.domain.Patient;
+import kigali.clinc.clinicmanagement.domain.Prescription;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
@@ -31,4 +32,15 @@ public interface PatientRepository extends JpaRepository<Patient, UUID> {
                 ORDER BY COUNT(a) DESC
             """)
     List<Patient> findFrequentPatients(@Param("min") long min);
+
+    @Query("""
+            SELECT p
+            FROM Prescription p
+            JOIN p.appointment a
+            JOIN a.patient patient
+            WHERE patient.ssNumber = :ssNumber
+            ORDER BY p.issuedDate DESC
+            """)
+    List<Prescription> findPrescriptionHistoryByPatientSsNumber(
+            @Param("ssNumber") String ssNumber);
 }
