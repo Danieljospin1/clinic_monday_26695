@@ -36,9 +36,8 @@ public class DoctorController {
     @Autowired
     private DoctorService doctorService;
 
-    @Autowired 
+    @Autowired
     private AppointmentService appointmentService;
-
 
     // CREATE
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -213,5 +212,13 @@ public class DoctorController {
         }
 
         return ResponseEntity.ok(result.get());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Doctor>> searchDoctorsByName(
+            @RequestParam String name) {
+
+        return ResponseEntity.ok(
+                doctorService.searchDoctorsByName(name));
     }
 }
