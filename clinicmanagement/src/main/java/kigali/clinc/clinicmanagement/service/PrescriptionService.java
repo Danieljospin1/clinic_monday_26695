@@ -67,4 +67,47 @@ public class PrescriptionService {
         return Optional.of(prescriptions);
     }
 
+    public List<Prescription> getAllPrescriptions() {
+        return prescriptionRepository.findAll();
+    }
+
+    public Optional<Prescription> getPrescriptionById(UUID id) {
+        return prescriptionRepository.findById(id);
+    }
+
+    public String deletePrescription(UUID id) {
+        if (!prescriptionRepository.existsById(id)) {
+            return "The prescription with that id does not exist";
+        }
+
+        prescriptionRepository.deleteById(id);
+        return "Prescription deleted successfully";
+    }
+
+    public String updatePrescription(UUID id, Prescription updatedPrescription) {
+
+        Optional<Prescription> optionalPrescription = prescriptionRepository.findById(id);
+
+        if (optionalPrescription.isEmpty()) {
+            return "The prescription with that id does not exist";
+        }
+
+        Prescription existingPrescription = optionalPrescription.get();
+
+        existingPrescription.setMedicineName(
+                updatedPrescription.getMedicineName());
+
+        existingPrescription.setDosage(
+                updatedPrescription.getDosage());
+
+        existingPrescription.setDurationDays(
+                updatedPrescription.getDurationDays());
+
+        prescriptionRepository.save(existingPrescription);
+
+        return "Prescription updated successfully";
+    }
+
+    
+
 }

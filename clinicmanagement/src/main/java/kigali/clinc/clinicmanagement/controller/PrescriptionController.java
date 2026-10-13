@@ -6,9 +6,11 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -67,6 +69,31 @@ public class PrescriptionController {
         List<Prescription> prescriptions = prescriptionService.getPrescriptionHistory(ssNumber);
 
         return ResponseEntity.ok(prescriptions);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePrescription(@PathVariable UUID id) {
+        String result = prescriptionService.deletePrescription(id);
+
+        if (result.equals("The prescription with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updatePrescription(
+            @PathVariable UUID id,
+            @RequestBody Prescription prescription) {
+
+        String result = prescriptionService.updatePrescription(id, prescription);
+
+        if (result.equals("The prescription with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        }
+
+        return ResponseEntity.ok(result);
     }
 
 }
