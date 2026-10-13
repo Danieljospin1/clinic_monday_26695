@@ -133,4 +133,37 @@ public class AppointmentService {
     public long getAppointmentCountByDoctor(UUID doctorId) {
         return appointmentRepository.countByDoctorId(doctorId);
     }
+
+    public String updateAppointmentStatus(UUID id, AppointmentStatus newStatus) {
+
+        Appointment appointment = appointmentRepository.findById(id).orElse(null);
+
+        if (appointment == null) {
+            return "The appointment with that id does not exist";
+        }
+
+        AppointmentStatus currentStatus = appointment.getStatus();
+
+        boolean allowed = switch (currentStatus) {
+            case SCHEDULED ->
+                newStatus == AppointmentStatus.CONFIRMED
+                        || newStatus == AppointmentStatus.CANCELLED;
+
+            case CONFIRMED ->
+                newStatus == AppointmentStatus.COMPLETED
+                        || newStatus == AppointmentStatus.CANCELLED;
+
+            case COMPLETED, CANCELLED -> false;
+        };
+
+        if (!allowed) {
+            return "Cannot change status from " + currentStatus
+                    + " to " + newStatus;
+        }
+
+        appointment.setStatus(newStatus);
+        appointmentRepository.save(appointment);
+
+        return "Appointment status updated successfully";
+    }
 }

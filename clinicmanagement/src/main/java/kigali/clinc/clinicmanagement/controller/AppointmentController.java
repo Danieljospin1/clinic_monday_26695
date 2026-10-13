@@ -41,10 +41,12 @@ public class AppointmentController {
 
         if (message.equals("Appointment date cannot be in the past")) {
             return ResponseEntity.badRequest().body(message);
-        };
+        }
+        ;
         if (message.equals("Doctor is already booked on that date")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
-        };
+        }
+        ;
 
         return ResponseEntity.ok(message);
     }
@@ -134,5 +136,23 @@ public class AppointmentController {
         appointmentService.deleteAppointment(id);
 
         return ResponseEntity.ok("Appointment deleted successfully");
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<String> updateAppointmentStatus(
+            @PathVariable UUID id,
+            @RequestParam AppointmentStatus status) {
+
+        String result = appointmentService.updateAppointmentStatus(id, status);
+
+        if (result.equals("The appointment with that id does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+        }
+
+        if (result.startsWith("Cannot change status from ")) {
+            return ResponseEntity.badRequest().body(result);
+        }
+
+        return ResponseEntity.ok(result);
     }
 }
