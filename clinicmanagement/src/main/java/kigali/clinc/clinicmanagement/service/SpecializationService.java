@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import kigali.clinc.clinicmanagement.domain.Doctor;
 import kigali.clinc.clinicmanagement.domain.Specialization;
 import kigali.clinc.clinicmanagement.repository.DoctorRepository;
@@ -98,7 +98,7 @@ public class SpecializationService {
         }
 
         if (specialization.getDoctors().contains(doctor)) {
-        return "The doctor already has that specialization";
+            return "The doctor already has that specialization";
         }
 
         specialization.getDoctors().add(doctor);
@@ -106,5 +106,38 @@ public class SpecializationService {
         specializationRepo.save(specialization);
 
         return "Doctor added to specialization successfully";
+    };
+
+    // Removing specialization from doctor
+@Transactional
+public String removeSpecializationFromDoctor(
+        UUID specializationId,
+        UUID doctorId) {
+
+    Specialization specialization = specializationRepo
+            .findById(specializationId)
+            .orElse(null);
+
+    if (specialization == null) {
+        return "That specialization does not exist";
     }
+
+    Doctor doctor = doctorRepo.findById(doctorId)
+            .orElse(null);
+
+    if (doctor == null) {
+        return "Doctor with that id does not exist";
+    }
+
+    boolean removed = doctor.getSpecializations()
+            .removeIf(s -> s.getId().equals(specializationId));
+
+    if (removed) {
+        doctorRepo.save(doctor);
+
+        return "Specialization removed from doctor successfully";
+    }
+
+    return "Doctor does not have that specialization";
+}
 }

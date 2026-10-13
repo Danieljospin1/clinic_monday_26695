@@ -146,4 +146,26 @@ public class DoctorController {
                 message,
                 HttpStatus.OK);
     }
+    //Remove one specialization from a doctor
+    @DeleteMapping("/{doctorId}/specializations/{specializationId}")
+    public ResponseEntity<?> removeSpecializationFromDoctor(
+            @PathVariable UUID doctorId,
+            @PathVariable UUID specializationId) {
+
+        String message = specializationService.removeSpecializationFromDoctor(
+                specializationId,
+                doctorId);
+
+        if (message.equals("That specialization does not exist")
+                || message.equals("Doctor with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+        if (message.equals("The doctor already has that specialization")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(
+                message,
+                HttpStatus.OK);
+    }
 }
