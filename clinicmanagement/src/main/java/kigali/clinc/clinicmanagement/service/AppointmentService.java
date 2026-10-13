@@ -1,5 +1,7 @@
 package kigali.clinc.clinicmanagement.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,18 +25,23 @@ public class AppointmentService {
     // Save appointment with check
     public String saveAppointment(Appointment appointment) {
 
+        LocalDate appointmentDate = new java.sql.Date(
+                appointment.getAppointmentDate().getTime()).toLocalDate();
+        LocalDate today = LocalDate.now(ZoneId.systemDefault());
+
+        if (appointmentDate.isBefore(today)) {
+            return "Appointment date cannot be in the past";
+        }
+
         boolean doctorAlreadyBooked = appointmentRepository.existsByDoctorIdAndAppointmentDateAndStatusNot(
                 appointment.getDoctor().getId(),
                 appointment.getAppointmentDate(),
                 AppointmentStatus.CANCELLED);
 
-        System.out.println("Doctor ID: " + appointment.getDoctor().getId());
-        System.out.println("Appointment date: " + appointment.getAppointmentDate());
-        System.out.println("Already booked: " + doctorAlreadyBooked);
-
         if (doctorAlreadyBooked) {
             return "Doctor is already booked on that date";
         }
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
 
         appointmentRepository.save(appointment);
 

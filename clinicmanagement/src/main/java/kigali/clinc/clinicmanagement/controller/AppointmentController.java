@@ -33,19 +33,20 @@ public class AppointmentController {
     }
 
     // POST /appointments
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<String> saveAppointment(
             @RequestBody Appointment appointment) {
 
-        String result = appointmentService.saveAppointment(appointment);
+        String message = appointmentService.saveAppointment(appointment);
 
-        if (result.equals("Doctor is already booked on that date")) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(result);
-        }
+        if (message.equals("Appointment date cannot be in the past")) {
+            return ResponseEntity.badRequest().body(message);
+        };
+        if (message.equals("Doctor is already booked on that date")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        };
 
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(message);
     }
 
     // GET /appointments
