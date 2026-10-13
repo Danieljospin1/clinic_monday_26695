@@ -1,0 +1,422 @@
+{
+  "info": {
+    "_postman_id": "c064cb79-f95f-48e0-9282-8680f1d7b7de",
+    "name": "clinic2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "36720347"
+  },
+  "item": [
+    {
+      "name": "A1:add specialization to doctor",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/doctors/603daf4e-83be-43b3-b543-4f4e1cddd47b/specializations/997f46d4-04af-425c-be03-3bb506be6d94",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "doctors",
+            "603daf4e-83be-43b3-b543-4f4e1cddd47b",
+            "specializations",
+            "997f46d4-04af-425c-be03-3bb506be6d94"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "remove specialization from doctor",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/doctors/603daf4e-83be-43b3-b543-4f4e1cddd47b/specializations/997f46d4-04af-425c-be03-3bb506be6d94",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "doctors",
+            "603daf4e-83be-43b3-b543-4f4e1cddd47b",
+            "specializations",
+            "997f46d4-04af-425c-be03-3bb506be6d94"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "returning free offices",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/offices/free",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "offices",
+            "free"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "changing doctor office",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/doctors/603daf4e-83be-43b3-b543-4f4e1cddd47b/office?officeNumber=104",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "doctors",
+            "603daf4e-83be-43b3-b543-4f4e1cddd47b",
+            "office"
+          ],
+          "query": [
+            {
+              "key": "officeNumber",
+              "value": "104"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "safe new appointment creation",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \r\n  \"appointmentDate\": \"2026-10-15\",\r\n  \"reason\": \"Regular medical checkup\",\r\n  \"status\": \"SCHEDULED\",\r\n  \"patient\": {\r\n    \"id\": \"1af781c3-5517-4e7e-be4f-3e295ab4aecb\"\r\n  },\r\n  \"doctor\": {\r\n    \"id\": \"603daf4e-83be-43b3-b543-4f4e1cddd47b\"\r\n  }\r\n}\r\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updating appointment status",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/0116b44d-68aa-4799-9634-64e00942bc4a/status?status=SCHEDULED",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "0116b44d-68aa-4799-9634-64e00942bc4a",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "SCHEDULED"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "reschedule appointment",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/appointments/0116b44d-68aa-4799-9634-64e00942bc4a/reschedule?newDate=2026-10-30",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "appointments",
+            "0116b44d-68aa-4799-9634-64e00942bc4a",
+            "reschedule"
+          ],
+          "query": [
+            {
+              "key": "newDate",
+              "value": "2026-10-30"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "new prescription",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"medicineName\": \"Amoxicillin\",\r\n    \"dosage\": \"1 tablet, 3 times a day\",\r\n    \"durationDays\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:1014/api/prescriptions/save?appointmentId=276b2c44-d936-4b88-8a55-847ac4def824",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "prescriptions",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "appointmentId",
+              "value": "276b2c44-d936-4b88-8a55-847ac4def824"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get prescriptions of an appointment",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/prescriptions/appointment/276b2c44-d936-4b88-8a55-847ac4def824",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "prescriptions",
+            "appointment",
+            "276b2c44-d936-4b88-8a55-847ac4def824"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Prescription history of a patient",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/prescriptions/patient/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "prescriptions",
+            "patient",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete prescription",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/prescriptions/delete/2c7cfb10-45d2-4a08-88bd-541435c321aa",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "prescriptions",
+            "delete",
+            "2c7cfb10-45d2-4a08-88bd-541435c321aa"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "updating prescription",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"medicineName\": \"Amoxicilline\",\r\n    \"dosage\": \"1 tablet, 3 times a day\",\r\n    \"durationDays\": 7\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:1014/api/prescriptions/update/0b50881a-a02b-4ac7-b9b2-ae43767e6bc3",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "prescriptions",
+            "update",
+            "0b50881a-a02b-4ac7-b9b2-ae43767e6bc3"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "doctor agenda",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/doctors/603daf4e-83be-43b3-b543-4f4e1cddd47b/agenda?date=2026-10-15",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "doctors",
+            "603daf4e-83be-43b3-b543-4f4e1cddd47b",
+            "agenda"
+          ],
+          "query": [
+            {
+              "key": "date",
+              "value": "2026-10-15"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "upcoming appointments for patient",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/patients/1/upcoming",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "patients",
+            "1",
+            "upcoming"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "search doctor by name",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/doctors/search?name=erasme",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "doctors",
+            "search"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "erasme"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "dashboard",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:1014/api/dashboard/summary",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "1014",
+          "path": [
+            "api",
+            "dashboard",
+            "summary"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
