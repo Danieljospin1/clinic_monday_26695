@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kigali.clinc.clinicmanagement.domain.Doctor;
+import kigali.clinc.clinicmanagement.domain.Office;
 import kigali.clinc.clinicmanagement.repository.DoctorRepository;
 import kigali.clinc.clinicmanagement.repository.OfficeRepository;
 
@@ -80,5 +82,31 @@ public class DoctorService {
         doctorRepo.delete(doctor);
 
         return "Doctor is deleted Successfully";
+    }
+
+    @Transactional
+    public String changeDoctorOffice(UUID doctorId, int officeNumber) {
+
+        Doctor doctor = doctorRepo.findById(doctorId).orElse(null);
+
+        if (doctor == null) {
+            return "Doctor with that id does not exist";
+        }
+
+        Office office = officeRep.findByOfficeNumber(officeNumber).orElse(null);
+
+        if (office == null) {
+            return "Office with that number does not exist";
+        }
+
+        if (office.getDoctor() != null) {
+            return "That office is already assigned to another doctor";
+        }
+
+        doctor.setOffice(office);
+
+        doctorRepo.save(doctor);
+
+        return "Office changed successfully";
     }
 }

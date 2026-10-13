@@ -65,7 +65,7 @@ public class OfficeService {
         }
 
         // Check whether the new office number belongs to another office
-        Office officeWithSameNumber = officeRepo.findByOfficeNumber(updatedOffice.getOfficeNumber());
+        Office officeWithSameNumber = officeRepo.findByOfficeNumber(updatedOffice.getOfficeNumber()).orElse(updatedOffice);
 
         if (officeWithSameNumber != null
                 && !officeWithSameNumber.getId().equals(id)) {

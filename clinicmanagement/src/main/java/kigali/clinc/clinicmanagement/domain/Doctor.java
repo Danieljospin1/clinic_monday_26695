@@ -77,6 +77,10 @@ public class Doctor {
         return specializations;
     }
 
+    public void setOffice(Office office) {
+        this.office = office;
+    }
+
     public void setSpecializations(List<Specialization> specializations) {
         this.specializations = specializations;
     }

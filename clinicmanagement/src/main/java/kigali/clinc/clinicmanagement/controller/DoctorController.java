@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -146,7 +147,8 @@ public class DoctorController {
                 message,
                 HttpStatus.OK);
     }
-    //Remove one specialization from a doctor
+
+    // Remove one specialization from a doctor
     @DeleteMapping("/{doctorId}/specializations/{specializationId}")
     public ResponseEntity<?> removeSpecializationFromDoctor(
             @PathVariable UUID doctorId,
@@ -167,5 +169,26 @@ public class DoctorController {
         return new ResponseEntity<>(
                 message,
                 HttpStatus.OK);
+    }
+
+    @PatchMapping("/{doctorId}/office")
+    public ResponseEntity<String> changeDoctorOffice(
+            @PathVariable UUID doctorId,
+            @RequestParam int officeNumber) {
+
+        String message = doctorService.changeDoctorOffice(
+                doctorId,
+                officeNumber);
+
+        if (message.equals("Doctor with that id does not exist")
+                || message.equals("Office with that number does not exist")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+        }
+
+        if (message.equals("That office is already assigned to another doctor")) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
+        }
+
+        return ResponseEntity.ok(message);
     }
 }

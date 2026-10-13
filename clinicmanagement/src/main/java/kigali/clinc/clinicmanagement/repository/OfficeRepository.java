@@ -13,7 +13,7 @@ import kigali.clinc.clinicmanagement.domain.Office;
 @Repository
 public interface OfficeRepository extends JpaRepository<Office, UUID> {
 
-    Office findByOfficeNumber(int officeNumber);
+    Optional <Office> findByOfficeNumber(int officeNumber);
 
     Optional<Office> findByNameAndOfficeNumber(String name, int officeNumber);
 
