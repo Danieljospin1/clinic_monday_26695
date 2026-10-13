@@ -28,4 +28,8 @@ public interface OfficeRepository extends JpaRepository<Office, UUID> {
                 ORDER BY COUNT(a) DESC
             """)
     List<Object[]> findBusiestOffice();
+
+    //query to return free offices sorted
+    @Query("SELECT o FROM Office o WHERE o.doctor IS NULL ORDER BY o.officeNumber ASC")
+    List<Office> findFreeOffices();
 }

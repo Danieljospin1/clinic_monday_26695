@@ -49,6 +49,11 @@ public class OfficeService {
 
         return results.get(0);
     }
+    // free offices
+
+    public List<Office> findFreeOffices() {
+        return officeRepo.findFreeOffices();
+    }
 
     // UPDATE
     public String updateOffice(UUID id, Office updatedOffice) {
