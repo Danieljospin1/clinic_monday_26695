@@ -2,6 +2,7 @@ package kigali.clinc.clinicmanagement.repository;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,34 +14,36 @@ import kigali.clinc.clinicmanagement.domain.Prescription;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, UUID> {
-    List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
+        List<Patient> findByLastNameIgnoreCaseOrderByFirstNameAsc(String lastName);
 
-    @Query("""
-                SELECT DISTINCT p
-                FROM Patient p
-                JOIN p.appointments a
-                WHERE a.doctor.id = :doctorId
-            """)
-    List<Patient> findPatientsOfDoctor(@Param("doctorId") UUID doctorId);
+        Optional<Patient> findBySsNumber(String ssNumber);
 
-    @Query("""
-                SELECT p
-                FROM Patient p
-                JOIN p.appointments a
-                GROUP BY p
-                HAVING COUNT(a) >= :min
-                ORDER BY COUNT(a) DESC
-            """)
-    List<Patient> findFrequentPatients(@Param("min") long min);
+        @Query("""
+                            SELECT DISTINCT p
+                            FROM Patient p
+                            JOIN p.appointments a
+                            WHERE a.doctor.id = :doctorId
+                        """)
+        List<Patient> findPatientsOfDoctor(@Param("doctorId") UUID doctorId);
 
-    @Query("""
-            SELECT p
-            FROM Prescription p
-            JOIN p.appointment a
-            JOIN a.patient patient
-            WHERE patient.ssNumber = :ssNumber
-            ORDER BY p.issuedDate DESC
-            """)
-    List<Prescription> findPrescriptionHistoryByPatientSsNumber(
-            @Param("ssNumber") String ssNumber);
+        @Query("""
+                            SELECT p
+                            FROM Patient p
+                            JOIN p.appointments a
+                            GROUP BY p
+                            HAVING COUNT(a) >= :min
+                            ORDER BY COUNT(a) DESC
+                        """)
+        List<Patient> findFrequentPatients(@Param("min") long min);
+
+        @Query("""
+                        SELECT p
+                        FROM Prescription p
+                        JOIN p.appointment a
+                        JOIN a.patient patient
+                        WHERE patient.ssNumber = :ssNumber
+                        ORDER BY p.issuedDate DESC
+                        """)
+        List<Prescription> findPrescriptionHistoryByPatientSsNumber(
+                        @Param("ssNumber") String ssNumber);
 }

@@ -2,7 +2,7 @@ package kigali.clinc.clinicmanagement.service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 import kigali.clinc.clinicmanagement.domain.Doctor;
+import kigali.clinc.clinicmanagement.domain.Patient;
 import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
 import kigali.clinc.clinicmanagement.repository.DoctorRepository;
+import kigali.clinc.clinicmanagement.repository.PatientRepository;
 
 @Service
 public class AppointmentService {
@@ -24,6 +26,9 @@ public class AppointmentService {
 
     @Autowired
     private DoctorRepository doctorRepo;
+
+    @Autowired 
+    private PatientRepository patientRepository;
 
     public AppointmentService(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
@@ -229,6 +234,27 @@ public class AppointmentService {
                         doctorId,
                         date,
                         AppointmentStatus.CANCELLED);
+
+        return Optional.of(appointments);
+    }
+
+    public Optional<List<Appointment>> getUpcomingAppointments(String ssNumber) {
+
+        Optional<Patient> patient = patientRepository.findBySsNumber(ssNumber);
+
+        if (patient.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Date today = Date.valueOf(LocalDate.now());
+
+        List<AppointmentStatus> statuses = List.of(
+                AppointmentStatus.SCHEDULED,
+                AppointmentStatus.CONFIRMED);
+
+        List<Appointment> appointments = appointmentRepository
+                .findByPatient_SsNumberAndAppointmentDateGreaterThanEqualAndStatusInOrderByAppointmentDateAsc(
+                        ssNumber, today, statuses);
 
         return Optional.of(appointments);
     }

@@ -2,6 +2,7 @@ package kigali.clinc.clinicmanagement.controller;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,15 +18,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.Patient;
 import kigali.clinc.clinicmanagement.service.PatientService;
+import kigali.clinc.clinicmanagement.service.AppointmentService;
 
 @RestController
-@RequestMapping("/api/patient")
+@RequestMapping("/api/patients")
 public class PatientController {
 
         @Autowired
         private PatientService patientService;
+
+        @Autowired
+        private AppointmentService appointmentService;
 
         // CREATE
         @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -130,5 +136,19 @@ public class PatientController {
                 return new ResponseEntity<>(
                                 returnedMessage,
                                 HttpStatus.NOT_FOUND);
+        }
+
+        @GetMapping("/{ssNumber}/upcoming")
+        public ResponseEntity<?> getUpcomingAppointments(
+                        @PathVariable String ssNumber) {
+
+                Optional<List<Appointment>> result = appointmentService.getUpcomingAppointments(ssNumber);
+
+                if (result.isEmpty()) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                        .body("That patient with that ssnumber does not exist");
+                }
+
+                return ResponseEntity.ok(result.get());
         }
 }
