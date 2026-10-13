@@ -166,4 +166,44 @@ public class AppointmentService {
 
         return "Appointment status updated successfully";
     }
+
+    public String rescheduleAppointment(UUID id, java.sql.Date newDate) {
+
+        Appointment appointment = appointmentRepository.findById(id).orElse(null);
+
+        if (appointment == null) {
+            return "The appointment with that id does not exist";
+        }
+
+        AppointmentStatus currentStatus = appointment.getStatus();
+
+        if (currentStatus == AppointmentStatus.COMPLETED
+                || currentStatus == AppointmentStatus.CANCELLED) {
+            return "A " + currentStatus + " appointment cannot be rescheduled";
+        }
+
+        LocalDate requestedDate = newDate.toLocalDate();
+
+        if (requestedDate.isBefore(LocalDate.now())) {
+            return "Appointment date cannot be in the past";
+        }
+
+        boolean doctorAlreadyBooked = appointmentRepository
+                .existsByDoctorIdAndAppointmentDateAndStatusNotAndIdNot(
+                        appointment.getDoctor().getId(),
+                        newDate,
+                        AppointmentStatus.CANCELLED,
+                        id);
+
+        if (doctorAlreadyBooked) {
+            return "Doctor is already booked on that date";
+        }
+
+        appointment.setAppointmentDate(newDate);
+        appointment.setStatus(AppointmentStatus.SCHEDULED);
+
+        appointmentRepository.save(appointment);
+
+        return "Appointment rescheduled successfully";
+    }
 }

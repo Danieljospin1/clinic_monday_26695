@@ -16,48 +16,54 @@ import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
 
-        // Get appointments for a specific doctor
-        List<Appointment> findByDoctorId(UUID doctorId);
+  // Get appointments for a specific doctor
+  List<Appointment> findByDoctorId(UUID doctorId);
 
-        // Get appointments for a doctor ordered by date ascending
-        List<Appointment> findByDoctorIdOrderByAppointmentDateAsc(UUID doctorId);
+  // Get appointments for a doctor ordered by date ascending
+  List<Appointment> findByDoctorIdOrderByAppointmentDateAsc(UUID doctorId);
 
-        // Get appointments for a doctor ordered by date descending
-        List<Appointment> findByDoctorIdOrderByAppointmentDateDesc(UUID doctorId);
+  // Get appointments for a doctor ordered by date descending
+  List<Appointment> findByDoctorIdOrderByAppointmentDateDesc(UUID doctorId);
 
-        // Count appointments for a specific doctor
-        long countByDoctorId(UUID doctorId);
+  boolean existsByDoctorIdAndAppointmentDateAndStatusNotAndIdNot(
+      UUID doctorId,
+      java.util.Date appointmentDate,
+      AppointmentStatus status,
+      UUID id);
 
-        // find by appointment status
-        List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
+  // Count appointments for a specific doctor
+  long countByDoctorId(UUID doctorId);
 
-        // find By Appointment Date Between Order By Appointment Date
-        List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(
-                        Date start,
-                        Date end);
+  // find by appointment status
+  List<Appointment> findByStatusOrderByAppointmentDateAsc(AppointmentStatus status);
 
-        // conflicting appointment exists before saving
-        boolean existsByDoctorIdAndAppointmentDateAndStatusNot(
-                        UUID doctorId,
-                        Date appointmentDate,
-                        AppointmentStatus status);
+  // find By Appointment Date Between Order By Appointment Date
+  List<Appointment> findByAppointmentDateBetweenOrderByAppointmentDateAsc(
+      Date start,
+      Date end);
 
-        @Query("""
-                            SELECT a.status, COUNT(a)
-                            FROM Appointment a
-                            GROUP BY a.status
-                        """)
-        List<Object[]> countAppointmentsByStatus();
+  // conflicting appointment exists before saving
+  boolean existsByDoctorIdAndAppointmentDateAndStatusNot(
+      UUID doctorId,
+      Date appointmentDate,
+      AppointmentStatus status);
 
-        @Modifying
-        @Query("""
-                            UPDATE Appointment a
-                            SET a.status = AppointmentStatus.CANCELLED
-                            WHERE a.doctor.id = :doctorId
-                              AND a.appointmentDate = :date
-                              AND a.status <> AppointmentStatus.COMPLETED
-                        """)
-        int cancelAppointmentsForDoctorOnDate(
-                        @Param("doctorId") UUID doctorId,
-                        @Param("date") Date date);
+  @Query("""
+          SELECT a.status, COUNT(a)
+          FROM Appointment a
+          GROUP BY a.status
+      """)
+  List<Object[]> countAppointmentsByStatus();
+
+  @Modifying
+  @Query("""
+          UPDATE Appointment a
+          SET a.status = AppointmentStatus.CANCELLED
+          WHERE a.doctor.id = :doctorId
+            AND a.appointmentDate = :date
+            AND a.status <> AppointmentStatus.COMPLETED
+      """)
+  int cancelAppointmentsForDoctorOnDate(
+      @Param("doctorId") UUID doctorId,
+      @Param("date") Date date);
 }
