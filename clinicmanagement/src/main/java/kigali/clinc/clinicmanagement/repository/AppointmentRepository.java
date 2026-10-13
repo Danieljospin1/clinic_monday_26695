@@ -76,4 +76,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
                         String ssNumber,
                         Date today,
                         List<AppointmentStatus> statuses);
+
+        long countByAppointmentDate(java.sql.Date appointmentDate);
+
+        long countByStatus(AppointmentStatus status);
 }

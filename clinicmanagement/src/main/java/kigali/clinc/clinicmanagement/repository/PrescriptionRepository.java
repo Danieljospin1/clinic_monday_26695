@@ -23,4 +23,6 @@ public interface PrescriptionRepository
                         """)
         List<Prescription> findPrescriptionHistoryByPatientSsNumber(
                         @Param("ssNumber") String ssNumber);
+
+        long count();
 }

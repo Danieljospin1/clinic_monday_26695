@@ -32,4 +32,6 @@ public interface OfficeRepository extends JpaRepository<Office, UUID> {
     //query to return free offices sorted
     @Query("SELECT o FROM Office o WHERE o.doctor IS NULL ORDER BY o.officeNumber ASC")
     List<Office> findFreeOffices();
+
+    long countByDoctorIsNull();
 }
