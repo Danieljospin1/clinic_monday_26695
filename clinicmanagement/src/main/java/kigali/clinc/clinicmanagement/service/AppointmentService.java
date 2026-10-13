@@ -4,22 +4,30 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.AppointmentStatus;
+import kigali.clinc.clinicmanagement.domain.Doctor;
 import kigali.clinc.clinicmanagement.repository.AppointmentRepository;
+import kigali.clinc.clinicmanagement.repository.DoctorRepository;
 
 @Service
 public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
 
+    @Autowired
+    private DoctorRepository doctorRepo;
+
     public AppointmentService(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
+
     }
 
     // Save appointment with check
@@ -205,5 +213,23 @@ public class AppointmentService {
         appointmentRepository.save(appointment);
 
         return "Appointment rescheduled successfully";
+    }
+
+    public Optional<List<Appointment>> getDoctorAgenda(
+            UUID doctorId, Date date) {
+
+        Optional<Doctor> doctor = doctorRepo.findById(doctorId);
+
+        if (doctor.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<Appointment> appointments = appointmentRepository
+                .findByDoctor_IdAndAppointmentDateAndStatusNot(
+                        doctorId,
+                        date,
+                        AppointmentStatus.CANCELLED);
+
+        return Optional.of(appointments);
     }
 }

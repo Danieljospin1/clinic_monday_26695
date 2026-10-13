@@ -1,6 +1,8 @@
 package kigali.clinc.clinicmanagement.controller;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kigali.clinc.clinicmanagement.domain.Appointment;
 import kigali.clinc.clinicmanagement.domain.Doctor;
+import kigali.clinc.clinicmanagement.service.AppointmentService;
 import kigali.clinc.clinicmanagement.service.DoctorService;
 import kigali.clinc.clinicmanagement.service.SpecializationService;
 
@@ -31,6 +35,10 @@ public class DoctorController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired 
+    private AppointmentService appointmentService;
+
 
     // CREATE
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -190,5 +198,20 @@ public class DoctorController {
         }
 
         return ResponseEntity.ok(message);
+    }
+
+    @GetMapping("/{doctorId}/agenda")
+    public ResponseEntity<?> getDoctorAgenda(
+            @PathVariable UUID doctorId,
+            @RequestParam Date date) {
+
+        Optional<List<Appointment>> result = appointmentService.getDoctorAgenda(doctorId, date);
+
+        if (result.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The doctor with that id does not exist");
+        }
+
+        return ResponseEntity.ok(result.get());
     }
 }
