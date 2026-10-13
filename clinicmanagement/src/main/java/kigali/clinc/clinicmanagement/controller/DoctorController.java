@@ -19,10 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kigali.clinc.clinicmanagement.domain.Doctor;
 import kigali.clinc.clinicmanagement.service.DoctorService;
+import kigali.clinc.clinicmanagement.service.SpecializationService;
 
 @RestController
-@RequestMapping("/api/doctor")
+@RequestMapping("/api/doctors")
 public class DoctorController {
+
+    @Autowired
+    private SpecializationService specializationService;
 
     @Autowired
     private DoctorService doctorService;
@@ -38,6 +42,7 @@ public class DoctorController {
                 HttpStatus.CREATED);
     }
 
+    // get doctors by specialization
     @GetMapping("/by-specialization")
     public List<Doctor> getDoctorsBySpecialization(
             @RequestParam String name) {
@@ -45,6 +50,7 @@ public class DoctorController {
         return doctorService.getDoctorsBySpecialization(name);
     }
 
+    // get doctors without office
     @GetMapping("/without-office")
     public List<Doctor> getDoctorsWithoutOffice() {
         return doctorService.getDoctorsWithoutOffice();
@@ -116,5 +122,28 @@ public class DoctorController {
         return new ResponseEntity<>(
                 returnedMessage,
                 HttpStatus.NOT_FOUND);
+    }
+
+    // ADD SPECIALIZATION TO DOCTOR
+    @PutMapping("/{doctorId}/specializations/{specializationId}")
+    public ResponseEntity<?> addSpecializationToDoctor(
+            @PathVariable UUID doctorId,
+            @PathVariable UUID specializationId) {
+
+        String message = specializationService.addSpecializationToDoctor(
+                specializationId,
+                doctorId);
+
+        if (message.equals("That specialization does not exist")
+                || message.equals("Doctor with that id does not exist")) {
+            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+        }
+        if (message.equals("The doctor already has that specialization")) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(
+                message,
+                HttpStatus.OK);
     }
 }

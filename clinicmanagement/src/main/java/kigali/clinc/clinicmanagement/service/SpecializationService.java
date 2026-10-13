@@ -78,8 +78,8 @@ public class SpecializationService {
         return "Specialization deleted successfully";
     }
 
-    // ADD DOCTOR TO SPECIALIZATION
-    public String addDoctorToSpecialization(
+    // ADD specialization to a doctor
+    public String addSpecializationToDoctor(
             UUID specializationId,
             UUID doctorId) {
 
@@ -87,21 +87,21 @@ public class SpecializationService {
                 .orElse(null);
 
         if (specialization == null) {
-            return "Specialization not found";
+            return "That specialization does not exist";
         }
 
         Doctor doctor = doctorRepo.findById(doctorId)
                 .orElse(null);
 
         if (doctor == null) {
-            return "Doctor not found";
+            return "Doctor with that id does not exist";
         }
 
-        // if (specialization.getDoctors().contains(doctor)) {
-        // return "Doctor already has this specialization";
-        // }
+        if (specialization.getDoctors().contains(doctor)) {
+        return "The doctor already has that specialization";
+        }
 
-        // specialization.getDoctors().add(doctor);
+        specialization.getDoctors().add(doctor);
 
         specializationRepo.save(specialization);
 

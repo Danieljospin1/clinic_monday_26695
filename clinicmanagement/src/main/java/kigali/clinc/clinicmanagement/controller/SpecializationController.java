@@ -122,18 +122,5 @@ public class SpecializationController {
                                 HttpStatus.NOT_FOUND);
         }
 
-        // ADD DOCTOR TO SPECIALIZATION
-        @PostMapping("/{specializationId}/doctor/{doctorId}")
-        public ResponseEntity<?> addDoctorToSpecialization(
-                        @PathVariable UUID specializationId,
-                        @PathVariable UUID doctorId) {
-
-                String message = specializationService.addDoctorToSpecialization(
-                                specializationId,
-                                doctorId);
-
-                return new ResponseEntity<>(
-                                message,
-                                HttpStatus.OK);
-        }
+        
 }
